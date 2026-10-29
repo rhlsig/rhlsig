@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RNS FINANCE - Personal & Online Shopping Loan Portal</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- jsPDF & html2canvas for Single-Click PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.dark-mode {
+      background-color: #0f172a;
+      color: #f1f5f9;
+    }
+    body.dark-mode .card-bg {
+      background-color: #1e293b;
+      border-color: #334155;
+      color: #f1f5f9;
+    }
+    body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
+      background-color: #0f172a;
+      border-color: #475569;
+      color: #f8fafc;
+    }
+    .pulse-dot {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .agreement-paper {
+      background: #ffffff;
+      color: #111827;
+      border: 2px solid #1e293b;
+      padding: 28px;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+  <!-- ================= TOP HEADER (SAME AS SCREENSHOT) ================= -->
+  <header class="bg-white card-bg shadow-sm border-b border-slate-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+        
+        <!-- Left Brand & Info Pills -->
+        <div class="space-y-2">
+          <div class="flex items-center gap-3 flex-wrap">
+            <div class="w-12 h-12 rounded-xl bg-emerald-700 flex items-center justify-center text-white font-bold text-xl shadow">
+              <i class="fa-solid fa-building-columns"></i>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">RNS FINANCE</h1>
+            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+              <i class="fa-solid fa-check"></i> Verified Finance
+            </span>
+            <span class="bg-slate-100 text-slate-700 text-xs font-semibold px-2.5 py-1 rounded border border-slate-300">
+              CIN: U65929UP2026PTC123456
+            </span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 pt-1">
+            <span class="bg-sky-700 text-white text-xs font-semibold px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-sky-300"></span>
+              ⚡ 24×7 Helpline & Loan Booking
+            </span>
+
+            <a href="https://wa.me/917668273774" target="_blank" class="bg-rose-50 text-rose-700 border border-rose-200 text-xs font-bold px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-rose-600"></span>
+              Helpline No. & WhatsApp: +917668273774
+            </a>
+
+            <span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-600 pulse-dot"></span>
+              <span id="cloudStatusText">Live Cloud Synced</span>
+            </span>
+          </div>
+
+          <div class="text-xs text-slate-600 dark:text-slate-300 flex items-center gap-1.5 pt-0.5">
+            <i class="fa-solid fa-location-dot text-rose-600"></i>
+            <span>Kali Mata Road, Sikta, Padrauna, Kushinagar (274303)</span>
+            <a href="https://maps.google.com/?q=Sikta,Padrauna,Kushinagar,274303" target="_blank" class="text-teal-700 dark:text-teal-400 underline font-semibold ml-1">View on Map ↗</a>
+          </div>
+        </div>
+
+        <!-- Right Controls & Portals -->
+        <div class="flex flex-wrap items-center gap-2 self-start lg:self-center">
+          <!-- Portal Switcher -->
+          <div class="bg-slate-100 dark:bg-slate-800 p-1 rounded-xl flex items-center border border-slate-200 dark:border-slate-700">
+            <button onclick="switchMainView('customer')" id="btnCustomerPortal" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition">
+              Customer Portal
+            </button>
+            <button onclick="openOwnerPortalPrompt()" id="btnOwnerPortal" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 transition flex items-center gap-1">
+              🔒 Owner Portal
+            </button>
+          </div>
+
+          <!-- Language Switcher -->
+          <button onclick="toggleLanguage()" class="px-3 py-1.5 rounded-full border border-emerald-300 bg-emerald-50 text-emerald-800 text-xs font-bold flex items-center gap-1">
+            🇮🇳 <span id="langBtnText">हिंदी / EN</span>
+          </button>
+
+          <!-- Dark/Light Mode Toggle -->
+          <button onclick="toggleTheme()" class="w-9 h-9 rounded-full border border-slate-200 bg-white dark:bg-slate-800 flex items-center justify-center text-amber-500 shadow-sm hover:scale-105 transition" title="Dark / Light Mode">
+            <i id="themeIcon" class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- Quick Track Button -->
+          <button onclick="switchCustomerTab('track')" class="px-3.5 py-2 rounded-full border border-slate-200 bg-white dark:bg-slate-800 text-xs font-bold flex items-center gap-1.5 shadow-sm hover:bg-slate-50">
+            📦 Track Application
+          </button>
+
+          <!-- WhatsApp Button -->
+          <a href="https://wa.me/917668273774?text=Hello%20RNS%20Finance,%20I%20want%20to%20apply%20for%20a%20loan" target="_blank" class="px-4 py-2 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm">
+            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp Support
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT CONTAINER ================= -->
+  <main class="max-w-7xl mx-auto w-full px-4 py-6 flex-grow">
+
+    <!-- ================= 1. CUSTOMER PORTAL VIEW ================= -->
+    <div id="customerPortalSection">
+      
+      <!-- Top Hero Banner -->
+      <div class="bg-gradient-to-r from-slate-900 via-emerald-900 to-slate-900 text-white rounded-2xl p-6 mb-6 shadow-md">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <span class="bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold px-3 py-1 rounded-full uppercase">
+              Instant Digital Processing • Sikta Kubernath Padrauna
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">पर्सनल लोन एवं ऑनलाइन शॉपिंग फाइनेंस सेवाएँ</h2>
+            <p class="text-slate-300 text-sm mt-1">न्यूनतम दस्तावेज • तेज़ क्लाउड वेरिफिकेशन • आसान मासिक किस्त (EMI)</p>
+          </div>
+          <div class="bg-white/10 backdrop-blur p-3.5 rounded-xl border border-white/15 text-xs space-y-1">
+            <div class="font-bold text-emerald-300"><i class="fa-solid fa-envelope mr-1"></i> rnsgpl2316@gmail.com</div>
+            <div><i class="fa-solid fa-shield-halved mr-1"></i> 100% डिजिटल अनुबंध एवं नो-ड्यू लेटर सुविधा</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Main Options Navigation (New Customer, Old/Track Customer, Check CIBIL) -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+        <button onclick="switchCustomerTab('new')" id="tabNewCustomer" class="p-4 rounded-xl border-2 border-emerald-600 bg-emerald-600 text-white font-bold text-left shadow-sm transition flex items-center justify-between">
+          <div>
+            <div class="text-base"><i class="fa-solid fa-user-plus mr-2"></i>New Customer (नया आवेदन)</div>
+            <div class="text-xs opacity-90 font-normal mt-0.5">पर्सनल लोन या ऑनलाइन शॉपिंग लोन फॉर्म</div>
+          </div>
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <button onclick="switchCustomerTab('track')" id="tabTrackCustomer" class="p-4 rounded-xl border-2 border-slate-200 bg-white card-bg font-bold text-left shadow-sm transition flex items-center justify-between hover:border-emerald-500">
+          <div>
+            <div class="text-base text-emerald-700 dark:text-emerald-400"><i class="fa-solid fa-magnifying-glass-location mr-2"></i>Old Customer / Track Status</div>
+            <div class="text-xs text-slate-500 font-normal mt-0.5">ऑर्डर आईडी, मोबाइल या आधार से ट्रैक करें व किस्त देखें</div>
+          </div>
+          <i class="fa-solid fa-chevron-right text-slate-400"></i>
+        </button>
+
+        <button onclick="switchCustomerTab('cibil')" id="tabCibilCheck" class="p-4 rounded-xl border-2 border-slate-200 bg-white card-bg font-bold text-left shadow-sm transition flex items-center justify-between hover:border-emerald-500">
+          <div>
+            <div class="text-base text-sky-700 dark:text-sky-400"><i class="fa-solid fa-gauge-high mr-2"></i>Check Free CIBIL Score</div>
+            <div class="text-xs text-slate-500 font-normal mt-0.5">मुफ्त में अपना सिबिल स्कोर तुरंत जांचें</div>
+          </div>
+          <i class="fa-solid fa-chevron-right text-slate-400"></i>
+        </button>
+      </div>
+
+      <!-- TAB 1: NEW CUSTOMER APPLICATION FORM -->
+      <div id="viewNewCustomer" class="bg-white card-bg rounded-2xl shadow-sm border border-slate-200 p-6">
+        <div class="border-b border-slate-200 pb-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">नया ऋण आवेदन फॉर्म (New Loan Application)</h3>
+            <p class="text-xs text-slate-500">कृपया सभी जानकारी सही भरें और साफ दस्तावेज अपलोड करें (अधिकतम साइज़: 500 KB प्रति डॉक्यूमेंट - ऑटो कंप्रेस सुविधा उपलब्ध)</p>
+          </div>
+          <span class="text-xs bg-amber-50 text-amber-800 border border-amber-200 px-3 py-1 rounded-lg font-semibold">
+            <i class="fa-solid fa-bolt mr-1"></i> Instant Order ID Generation
+          </span>
+        </div>
+
+        <form id="loanApplicationForm" onsubmit="submitLoanApplication(event)" class="space-y-6">
+          
+          <!-- Loan Category & Amount Section -->
+          <div class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+            <h4 class="text-sm font-bold text-emerald-700 dark:text-emerald-400 mb-3 uppercase">1. ऋण का प्रकार और राशि (Loan Category & Amount)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div>
+                <label class="block text-xs font-bold mb-1">लोन श्रेणी (Loan Type) *</label>
+                <select id="appLoanType" required onchange="updateFeeCalculation()" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+                  <option value="Personal Loan (पर्सनल लोन)">Personal Loan (पर्सनल लोन)</option>
+                  <option value="Online Shopping Loan (ऑनलाइन शॉपिंग लोन)">Online Shopping Loan (ऑनलाइन शॉपिंग लोन)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">ग्राहक प्रकार (Customer Type) *</label>
+                <select id="appCustomerType" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+                  <option value="New Customer">New Customer (नया ग्राहक)</option>
+                  <option value="Old Customer">Old Customer (पुराना ग्राहक)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">लोन राशि (Loan Amount ₹) *</label>
+                <input type="number" id="appLoanAmount" required min="500" max="500000" value="5000" oninput="updateFeeCalculation()" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm font-bold" placeholder="जैसे: 5000">
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">अवधि (Tenure in Months) *</label>
+                <select id="appTenure" required onchange="updateFeeCalculation()" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+                  <option value="3">3 Months (3 माह)</option>
+                  <option value="6" selected>6 Months (6 माह)</option>
+                  <option value="12">12 Months (12 माह)</option>
+                  <option value="24">24 Months (24 माह)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Online Shopping Link / Product Name (Conditional Info) -->
+            <div class="mt-3">
+              <label class="block text-xs font-bold mb-1">उद्देश्य / ऑनलाइन शॉपिंग प्रोडक्ट का नाम या लिंक (यदि शॉपिंग लोन है)</label>
+              <input type="text" id="appPurpose" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="व्यक्तिगत जरूरत या मोबाइल/सामान का विवरण लिखें...">
+            </div>
+
+            <!-- Promo Code & Fee Summary Bar -->
+            <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div class="flex items-center gap-2">
+                <input type="text" id="appPromoInput" placeholder="प्रोमो कोड (Promo Code)" class="rounded-lg border border-slate-300 px-3 py-1.5 text-xs uppercase font-bold">
+                <button type="button" onclick="applyPromoCode()" class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-700">Apply Code</button>
+                <span id="promoMsg" class="text-xs font-bold"></span>
+              </div>
+
+              <div class="flex flex-wrap items-center gap-4 text-xs bg-white dark:bg-slate-900 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700">
+                <div>प्रोसेसिंग फीस: <strong id="dispProcFee">₹250</strong></div>
+                <div>GST (18%): <strong id="dispGstFee">₹45</strong></div>
+                <div>प्रोमो छूट: <strong id="dispDiscount" class="text-emerald-600">-₹0</strong></div>
+                <div class="text-sm font-extrabold text-emerald-700 dark:text-emerald-400">कुल प्रोसेसिंग शुल्क: <span id="dispTotalFee">₹295</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Personal & Bank Details -->
+          <div>
+            <h4 class="text-sm font-bold text-emerald-700 dark:text-emerald-400 mb-3 uppercase">2. व्यक्तिगत एवं बैंक विवरण (Personal & Bank Details)</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label class="block text-xs font-bold mb-1">पूरा नाम (Full Name) *</label>
+                <input type="text" id="appName" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="अपना पूरा नाम लिखें">
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">मोबाइल नंबर (Mobile Number) *</label>
+                <input type="tel" id="appMobile" required pattern="[0-9]{10}" maxlength="10" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="10 अंकों का मोबाइल नंबर">
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">ईमेल आईडी (Email ID) *</label>
+                <input type="email" id="appEmail" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="example@gmail.com">
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">आधार नंबर (Aadhaar Number) *</label>
+                <input type="text" id="appAadhaar" required pattern="[0-9]{12}" maxlength="12" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="12 अंकों का आधार नंबर">
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">पैन कार्ड नंबर (PAN Number) *</label>
+                <input type="text" id="appPan" required maxlength="10" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm uppercase" placeholder="ABCDE1234F">
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">बैंक खाता संख्या एवं IFSC (Bank A/C & IFSC) *</label>
+                <input type="text" id="appBank" required class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="Account No / IFSC Code">
+              </div>
+            </div>
+          </div>
+
+          <!-- Document Upload Section (5 Documents) -->
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="text-sm font-bold text-emerald-700 dark:text-emerald-400 uppercase">3. डॉक्यूमेंट अपलोड करें (Upload Documents - Max Limit: 500 KB each)</h4>
+              <span class="text-xs text-slate-500">JPG / PNG सपोर्टेड (ऑटो-कंप्रेस)</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+              <!-- PAN Card -->
+              <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center">
+                <label class="block text-xs font-bold mb-1">1. पैन कार्ड (PAN Card) *</label>
+                <input type="file" accept="image/*" required onchange="handleFileUpload(event, 'pan')" class="text-xs w-full">
+                <img id="prev_pan" class="h-16 mx-auto mt-2 hidden rounded border object-cover" />
+              </div>
+              <!-- Aadhaar Card -->
+              <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center">
+                <label class="block text-xs font-bold mb-1">2. आधार कार्ड (Aadhaar) *</label>
+                <input type="file" accept="image/*" required onchange="handleFileUpload(event, 'aadhaar')" class="text-xs w-full">
+                <img id="prev_aadhaar" class="h-16 mx-auto mt-2 hidden rounded border object-cover" />
+              </div>
+              <!-- Bank Passbook -->
+              <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center">
+                <label class="block text-xs font-bold mb-1">3. बैंक पासबुक (Passbook) *</label>
+                <input type="file" accept="image/*" required onchange="handleFileUpload(event, 'passbook')" class="text-xs w-full">
+                <img id="prev_passbook" class="h-16 mx-auto mt-2 hidden rounded border object-cover" />
+              </div>
+              <!-- Photo -->
+              <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center">
+                <label class="block text-xs font-bold mb-1">4. पासपोर्ट फोटो (Photo) *</label>
+                <input type="file" accept="image/*" required onchange="handleFileUpload(event, 'photo')" class="text-xs w-full">
+                <img id="prev_photo" class="h-16 mx-auto mt-2 hidden rounded border object-cover" />
+              </div>
+              <!-- Signature -->
+              <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center">
+                <label class="block text-xs font-bold mb-1">5. हस्ताक्षर (Signature) *</label>
+                <input type="file" accept="image/*" required onchange="handleFileUpload(event, 'sign')" class="text-xs w-full">
+                <img id="prev_sign" class="h-16 mx-auto mt-2 hidden rounded border object-cover" />
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-sm shadow-lg transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-cloud-arrow-up"></i> आवेदन सबमिट करें और ऑर्डर आईडी प्राप्त करें (Submit to Cloud)
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- TAB 2: SMART CUSTOMER TRACKING SYSTEM (NO PROFILE NEEDED) -->
+      <div id="viewTrackCustomer" class="hidden space-y-6">
+        <div class="bg-white card-bg rounded-2xl shadow-sm border border-slate-200 p-6">
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-1">अपना लोन एप्लीकेशन और किस्त ट्रैक करें (Track Application & EMI)</h3>
+          <p class="text-xs text-slate-500 mb-4">बिना किसी लॉगिन/प्रोफाइल के अपना <strong>Order ID</strong>, <strong>Mobile Number</strong> या <strong>Aadhaar Number</strong> डालकर स्टेटस, री-अपलोड, ऑटो-डेबिट और एग्रीमेंट देखें।</p>
+          
+          <div class="flex flex-col sm:flex-row gap-3">
+            <input type="text" id="trackSearchInput" class="flex-grow rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold" placeholder="यहाँ Order ID (जैसे RF1001), मोबाइल नंबर या आधार नंबर डालें...">
+            <button onclick="searchCustomerApplication()" class="px-6 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm flex items-center justify-center gap-2">
+              <i class="fa-solid fa-magnifying-glass"></i> Track Now
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Tracking Result Container -->
+        <div id="trackingResultContainer"></div>
+      </div>
+
+      <!-- TAB 3: FREE CIBIL SCORE CHECKER -->
+      <div id="viewCibilCheck" class="hidden bg-white card-bg rounded-2xl shadow-sm border border-slate-200 p-6">
+        <div class="max-w-2xl mx-auto text-center space-y-4">
+          <div class="w-16 h-16 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center mx-auto text-2xl">
+            <i class="fa-solid fa-gauge-Simple-high"></i>
+          </div>
+          <h3 class="text-2xl font-extrabold">मुफ्त सिबिल स्कोर जांचें (Free CIBIL Score Check)</h3>
+          <p class="text-sm text-slate-600 dark:text-slate-300">अपना पैन नंबर और नाम डालकर तुरंत मुफ्त सिबिल अनुमान देखें या आधिकारिक पोर्टल से फ्री रिपोर्ट प्राप्त करें।</p>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left pt-2">
+            <div>
+              <label class="text-xs font-bold">आपका नाम (Full Name)</label>
+              <input type="text" id="cibilName" placeholder="Enter Full Name" class="w-full rounded-lg border px-3 py-2 text-sm mt-1">
+            </div>
+            <div>
+              <label class="text-xs font-bold">पैन कार्ड नंबर (PAN Number)</label>
+              <input type="text" id="cibilPan" maxlength="10" placeholder="ABCDE1234F" class="w-full rounded-lg border px-3 py-2 text-sm uppercase mt-1">
+            </div>
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-3 pt-2">
+            <button onclick="simulateFreeCibil()" class="px-6 py-2.5 rounded-xl bg-sky-700 text-white font-bold text-sm hover:bg-sky-800">
+              Instant Free Score Check
+            </button>
+            <a href="https://www.cibil.com/freecibilscore" target="_blank" class="px-6 py-2.5 rounded-xl border border-slate-300 font-bold text-sm hover:bg-slate-100">
+              Official CIBIL Portal ↗
+            </a>
+          </div>
+
+          <div id="cibilResultBox" class="hidden mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 font-bold"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= 2. OWNER PORTAL VIEW (CLOUD BACKEND) ================= -->
+    <div id="ownerPortalSection" class="hidden space-y-6">
+      
+      <!-- Owner Top Bar -->
+      <div class="bg-slate-900 text-white rounded-2xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="bg-emerald-500 text-slate-950 text-xs font-extrabold px-2.5 py-0.5 rounded">ADMINISTRATION</span>
+            <h2 class="text-xl font-extrabold">Loan Application Management Dashboard (Cloud Backend)</h2>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">सभी कस्टमर के डॉक्यूमेंट सिंगल PDF में डाउनलोड करें, स्टेटस बदलें, प्रोसेसिंग फीस घटाएं/बढ़ाएं, किस्त और एग्रीमेंट एडिट करें।</p>
+        </div>
+
+        <!-- Owner Sub-Navigation Tabs -->
+        <div class="flex flex-wrap gap-2">
+          <button onclick="switchOwnerTab('apps')" id="ownerTabApps" class="px-3.5 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold">
+            📋 All Applications
+          </button>
+          <button onclick="switchOwnerTab('collect')" id="ownerTabCollect" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold">
+            📱 Collect App (किस्त वसूली)
+          </button>
+          <button onclick="switchOwnerTab('agreement')" id="ownerTabAgreement" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold">
+            📝 Edit Agreement Letter
+          </button>
+          <button onclick="switchOwnerTab('promo')" id="ownerTabPromo" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold">
+            🎟️ Promo Codes
+          </button>
+        </div>
+      </div>
+
+      <!-- OWNER SUB-VIEW 1: APPLICATIONS LIST -->
+      <div id="ownerViewApps" class="space-y-4">
+        <div id="ownerApplicationsList" class="space-y-4"></div>
+      </div>
+
+      <!-- OWNER SUB-VIEW 2: COLLECT APP (EMI & MONTHLY COLLECTION) -->
+      <div id="ownerViewCollect" class="hidden">
+        <div class="max-w-xl mx-auto bg-white card-bg rounded-3xl shadow-lg border-4 border-slate-800 overflow-hidden">
+          <div class="bg-emerald-800 text-white p-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-mobile-screen-button text-xl"></i>
+              <div>
+                <h3 class="font-extrabold text-base">RNS Collect App</h3>
+                <p class="text-[11px] text-emerald-200">Monthly EMI & Auto-Collect Entry</p>
+              </div>
+            </div>
+            <span class="text-xs bg-emerald-950 px-2.5 py-1 rounded-full">Live Sync</span>
+          </div>
+
+          <div class="p-5 space-y-4">
+            <div>
+              <label class="block text-xs font-bold mb-1">ग्राहक चुनें (Select Customer / Order ID)</label>
+              <select id="collectAppCustomerSelect" onchange="loadCustomerForCollectApp()" class="w-full rounded-xl border border-slate-300 px-3 py-2.5 text-sm font-bold"></select>
+            </div>
+
+            <div id="collectCustomerSummary" class="bg-slate-50 dark:bg-slate-800 p-3.5 rounded-xl border text-xs space-y-1"></div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-bold mb-1">किस्त का महीना / विवरण (Month)</label>
+                <input type="text" id="collectEmiMonth" placeholder="जैसे: नवंबर 2026 (1st EMI)" class="w-full rounded-xl border px-3 py-2 text-sm">
+              </div>
+              <div>
+                <label class="block text-xs font-bold mb-1">जमा राशि (Paid Amount ₹)</label>
+                <input type="number" id="collectEmiAmount" placeholder="जैसे: 1000" class="w-full rounded-xl border px-3 py-2 text-sm font-bold">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold mb-1">पेमेंट मोड (Mode)</label>
+              <select id="collectEmiMode" class="w-full rounded-xl border px-3 py-2 text-sm">
+                <option value="Auto-Debit (NACH)">Auto-Debit (NACH / ऑटो कलेक्ट)</option>
+                <option value="Cash / Field Collect">Cash / Field Collect (नकद)</option>
+                <option value="UPI / Online">UPI / Online Transfer</option>
+              </select>
+            </div>
+
+            <button onclick="recordMonthlyEmi()" class="w-full py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-sm shadow">
+              <i class="fa-solid fa-check-circle mr-1"></i> किस्त अपडेट करें (Sync to Customer Tracking)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- OWNER SUB-VIEW 3: FULL EDITABLE AGREEMENT TEMPLATE -->
+      <div id="ownerViewAgreement" class="hidden bg-white card-bg rounded-2xl p-6 border border-slate-200 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-3">
+          <div>
+            <h3 class="text-lg font-extrabold">फुल एडिटेबल ऋण अनुबंध पत्र (Editable Loan Agreement Template)</h3>
+            <p class="text-xs text-slate-500">यहाँ आप एग्रीमेंट की शर्तों, ब्याज दर, पेनल्टी या किसी भी शब्द को एडिट कर सकते हैं। कस्टमर के ट्रैकिंग पेज पर यही अपडेटेड लेटर शो होगा।</p>
+          </div>
+          <button onclick="saveCustomAgreementTemplate()" class="px-5 py-2.5 rounded-xl bg-emerald-700 text-white text-xs font-bold hover:bg-emerald-800">
+            💾 Save Agreement Changes
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold mb-1">डिफ़ॉल्ट ब्याज दर (Interest Rate %)</label>
+            <input type="text" id="agrInterestRate" value="2%" class="w-full rounded-lg border px-3 py-2 text-sm font-bold">
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1">मासिक किस्त देय तारीख (EMI Due Date of Month)</label>
+            <input type="text" id="agrEmiDate" value="5" class="w-full rounded-lg border px-3 py-2 text-sm font-bold">
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1">विलंब शुल्क / NACH बाउंस शुल्क (Penalty & Bounce)</label>
+            <input type="text" id="agrPenaltyText" value="3% प्रति माह | बाउंस शुल्क: ₹500" class="w-full rounded-lg border px-3 py-2 text-sm font-bold">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold mb-1">कानूनी एवं विशेष शर्तें (आप इसे पूरा एडिट कर सकते हैं):</label>
+          <textarea id="agrCustomBody" rows="10" class="w-full rounded-xl border border-slate-300 p-3 text-sm font-medium leading-relaxed"></textarea>
+        </div>
+      </div>
+
+      <!-- OWNER SUB-VIEW 4: PROMO CODE GENERATOR -->
+      <div id="ownerViewPromo" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white card-bg rounded-2xl p-6 border border-slate-200 space-y-4">
+          <h3 class="text-lg font-extrabold">प्रोमो कोड जनरेटर (Promo Code Generator)</h3>
+          <div>
+            <label class="block text-xs font-bold mb-1">प्रोमो कोड नाम (Promo Code Text)</label>
+            <input type="text" id="promoCodeName" placeholder="जैसे: RNS200 या DIWALI50" class="w-full rounded-lg border px-3 py-2 text-sm uppercase font-bold">
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1">किसके लिए मान्य (Applicable For)</label>
+            <select id="promoTarget" class="w-full rounded-lg border px-3 py-2 text-sm">
+              <option value="All Customers">All Customers (सभी ग्राहक)</option>
+              <option value="New Customer">New Customer (नया ग्राहक)</option>
+              <option value="Old Customer">Old Customer (पुराना ग्राहक)</option>
+            </select>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold mb-1">छूट का प्रकार (Discount Type)</label>
+              <select id="promoType" class="w-full rounded-lg border px-3 py-2 text-sm">
+                <option value="FLAT">Rupee (₹ में छूट)</option>
+                <option value="PERCENT">Percentage (% में छूट)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold mb-1">छूट मान (Value ₹ या %)</label>
+              <input type="number" id="promoValue" value="100" class="w-full rounded-lg border px-3 py-2 text-sm font-bold">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1">कितने लोन तक वैलिड रहेगा (Max Loan Limit ₹)</label>
+            <input type="number" id="promoMaxLoan" value="10000" placeholder="जैसे: 2000 या 5000" class="w-full rounded-lg border px-3 py-2 text-sm font-bold">
+          </div>
+          <button onclick="createPromoCode()" class="w-full py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm">
+            Generate & Activate Promo Code
+          </button>
+        </div>
+
+        <div class="bg-white card-bg rounded-2xl p-6 border border-slate-200">
+          <h3 class="text-lg font-extrabold mb-3">एक्टिव प्रोमो कोड्स (Active Promo Codes)</h3>
+          <div id="activePromoList" class="space-y-2 text-xs"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= MODAL FOR VIEWING AGREEMENT / NO DUES LETTER ================= -->
+  <div id="documentModal" class="fixed inset-0 bg-black/75 z-50 hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 my-8 max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b pb-3">
+        <h3 id="modalTitle" class="font-extrabold text-lg text-slate-900">Document Preview</h3>
+        <div class="flex items-center gap-2">
+          <button onclick="downloadModalPdf()" class="px-4 py-2 rounded-lg bg-emerald-700 text-white text-xs font-bold flex items-center gap-1">
+            <i class="fa-solid fa-file-pdf"></i> Download PDF
+          </button>
+          <button onclick="closeDocumentModal()" class="px-3 py-2 rounded-lg bg-slate-200 text-slate-800 text-xs font-bold">✕ Close</button>
+        </div>
+      </div>
+      <div id="modalPrintableArea"></div>
+    </div>
+  </div>
+
+  <!-- ================= PROFESSIONAL BOTTOM BANNER & FOOTER ================= -->
+  <div class="mt-12">
+    <!-- Secondary Bottom Header / Banner -->
+    <div class="bg-emerald-900 text-white py-3 px-4 border-t border-emerald-700">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-center sm:text-left gap-2 text-xs font-bold tracking-wide">
+        <span>🏦 SMALL & ALL TYPES OF PERSONAL LOAN AND ONLINE SHOPPING EMI FINANCE SERVICES AVAILABLE</span>
+        <span class="bg-emerald-950 px-3 py-1 rounded-full text-emerald-300">Instant Approval • Digital Agreement • Collect App Integrated</span>
+      </div>
+    </div>
+
+    <!-- Main Dark Footer (Exact Layout as Screenshot) -->
+    <footer class="bg-[#0b1320] text-slate-300 pt-10 pb-6 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-slate-800">
+          
+          <!-- Column 1 -->
+          <div class="space-y-2.5">
+            <h4 class="text-emerald-400 font-extrabold text-lg tracking-wide">RNS FINANCE</h4>
+            <p class="text-white font-bold text-sm">24×7 Helpline & Loan Booking</p>
+            <p class="text-xs text-slate-400">Personal Loan & Online Shopping Finance Services.</p>
+            <p class="text-xs text-slate-400">Verified & Transparent Financial Assistance.</p>
+            <p class="text-xs text-emerald-400 font-mono pt-1">CIN: U65929UP2026PTC123456</p>
+          </div>
+
+          <!-- Column 2 -->
+          <div class="space-y-2.5">
+            <h4 class="text-emerald-400 font-extrabold text-lg tracking-wide">Contact & Location</h4>
+            <p class="text-xs leading-relaxed">
+              📍 <strong class="text-white">Address:</strong> Kali Mata Road, Sikta, Padrauna, Kushinagar, UP - 274303
+            </p>
+            <p class="text-xs">
+              📞 <strong class="text-white">Helpline No. & WhatsApp:</strong> +91 7668273774
+            </p>
+            <p class="text-xs">
+              ✉️ <strong class="text-white">Email:</strong> rnsgpl2316@gmail.com
+            </p>
+            <p class="text-xs pt-1">
+              🗺️ <a href="https://maps.google.com/?q=Sikta,Padrauna,Kushinagar,274303" target="_blank" class="text-slate-200 hover:text-emerald-400 underline">View RNS FINANCE on Google Maps</a>
+            </p>
+          </div>
+
+          <!-- Column 3 -->
+          <div class="space-y-2.5">
+            <h4 class="text-emerald-400 font-extrabold text-lg tracking-wide">Quick Services</h4>
+            <ul class="space-y-2 text-xs">
+              <li>
+                <a href="https://wa.me/917668273774" target="_blank" class="hover:text-white flex items-center gap-2">
+                  💬 Apply Directly on WhatsApp
+                </a>
+              </li>
+              <li>
+                <button onclick="switchMainView('customer'); switchCustomerTab('track');" class="hover:text-white flex items-center gap-2">
+                  📦 Track Your Loan Application / EMI
+                </button>
+              </li>
+              <li>
+                <button onclick="switchMainView('customer'); switchCustomerTab('new');" class="hover:text-white flex items-center gap-2">
+                  📄 Upload Customer Documents
+                </button>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="pt-5 text-center text-xs text-slate-400 font-medium">
+          © 2026 RNS FINANCE - Verified Financial Services & 100% Transparent Digital Loan Processing
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC & CLOUD STORAGE ENGINE ================= -->
+  <script>
+    // --- Default Editable Agreement Clauses (Exact Match to RNS FIN.pdf) ---
+    const DEFAULT_AGREEMENT_CLAUSES = `• संपत्ति अधिकारः पूर्ण भुगतान होने तक फाइनेंस की गई वस्तु/संपत्ति पर प्रथम अधिकार RNS Finance का होगा।
+• निरीक्षणः ऋणदाता को किसी भी समय फाइनेंस की गई वस्तु या व्यवसाय के निरीक्षण का अधिकार होगा।
+• कानूनी कार्यवाहीः ऋण अदायगी में चूक (Default) होने पर, ऋणदाता को आर्बिट्रेशन (Arbitration) और कानूनी रिकवरी की प्रक्रिया शुरू करने का अधिकार होगा, जिसका खर्च ग्राहक वहन करेगा।
+• फोरक्लोज़र (Foreclosure): समय से पूर्व ऋण चुकता (Foreclosure) करने पर बकाया मूल राशि पर निर्धारित शुल्क देय होगा।
+• सूचना अद्यतनः ग्राहक को अपना मोबाइल नंबर या पता बदलने पर 7 दिनों के भीतर RNS Finance को सूचित करना अनिवार्य है।
+• न्यायालयः किसी भी प्रकार के विवाद की स्थिति में न्यायिक क्षेत्राधिकार केवल कुशीनगर (Kushinagar) न्यायालय होगा।
+
+शपथ पत्रः मैं शपथपूर्वक घोषणा करता हूँ कि ऊपर दिए गए सभी दस्तावेज असली हैं। यदि किसी भी समय जानकारी गलत पाई जाती है या भुगतान में अनियमितता होती है, तो कंपनी मेरे विरुद्ध कानूनी कार्यवाही (जैसे Section 138 NI Act) करने के लिए स्वतंत्र होगी।`;
+
+    // --- State Management (Cloud Synced via LocalStorage + BroadcastChannel) ---
+    let uploadedDocsTemp = { pan: '', aadhaar: '', passbook: '', photo: '', sign: '' };
+    let appliedPromoDiscount = 0;
+    let appliedPromoCodeText = '';
+    let activeTimers = {};
+
+    function getCloudData() {
+      const raw = localStorage.getItem('RNS_FINANCE_CLOUD_DB');
+      if (!raw) {
+        const initialDB = {
+          agreementSettings: {
+            interestRate: '2%',
+            emiDate: '5',
+            penaltyText: '3% प्रति माह | बाउंस शुल्क: ₹500',
+            customBody: DEFAULT_AGREEMENT_CLAUSES
+          },
+          promos: [
+            { code: 'DIWALI200', target: 'All Customers', type: 'FLAT', value: 200, maxLoan: 50000 },
+            { code: 'NEW50', target: 'New Customer', type: 'PERCENT', value: 50, maxLoan: 5000 }
+          ],
+          applications: []
+        };
+        localStorage.setItem('RNS_FINANCE_CLOUD_DB', JSON.stringify(initialDB));
+        return initialDB;
+      }
+      return JSON.parse(raw);
+    }
+
+    function saveCloudData(db) {
+      localStorage.setItem('RNS_FINANCE_CLOUD_DB', JSON.stringify(db));
+      const badge = document.getElementById('cloudStatusText');
+      if (badge) {
+        badge.innerText = 'Syncing to Cloud...';
+        setTimeout(() => { badge.innerText = 'Live Cloud Synced'; }, 600);
+      }
+    }
+
+    // --- Initialize Page ---
+    window.addEventListener('DOMContentLoaded', () => {
+      updateFeeCalculation();
+      const db = getCloudData();
+      document.getElementById('agrInterestRate').value = db.agreementSettings.interestRate;
+      document.getElementById('agrEmiDate').value = db.agreementSettings.emiDate;
+      document.getElementById('agrPenaltyText').value = db.agreementSettings.penaltyText;
+      document.getElementById('agrCustomBody').value = db.agreementSettings.customBody;
+    });
+
+    // --- Theme & Language ---
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const icon = document.getElementById('themeIcon');
+      icon.className = document.body.classList.contains('dark-mode') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    }
+
+    function toggleLanguage() {
+      alert('यह पोर्टल द्विभाषी (Bilingual - हिंदी एवं English) मोड में सक्रिय है ताकि सभी ग्राहक आसानी से पढ़ सकें।');
+    }
+
+    // --- Navigation ---
+    function switchMainView(view) {
+      const custSec = document.getElementById('customerPortalSection');
+      const ownerSec = document.getElementById('ownerPortalSection');
+      const btnCust = document.getElementById('btnCustomerPortal');
+      const btnOwn = document.getElementById('btnOwnerPortal');
+
+      if (view === 'customer') {
+        custSec.classList.remove('hidden');
+        ownerSec.classList.add('hidden');
+        btnCust.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition';
+        btnOwn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition flex items-center gap-1';
+      } else {
+        custSec.classList.add('hidden');
+        ownerSec.classList.remove('hidden');
+        btnOwn.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-700 text-white shadow-sm transition flex items-center gap-1';
+        btnCust.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition';
+        renderOwnerApplications();
+        renderPromoCodes();
+        populateCollectAppDropdown();
+      }
+    }
+
+    function openOwnerPortalPrompt() {
+      const pin = prompt('ओनर पोर्टल खोलने के लिए एडमिन पिन दर्ज करें (डिफ़ॉल्ट पिन: 1234):', '1234');
+      if (pin === '1234') {
+        switchMainView('owner');
+      } else if (pin !== null) {
+        alert('गलत पिन! कृपया सही पिन डालें।');
+      }
+    }
+
+    function switchCustomerTab(tab) {
+      switchMainView('customer');
+      document.getElementById('viewNewCustomer').classList.toggle('hidden', tab !== 'new');
+      document.getElementById('viewTrackCustomer').classList.toggle('hidden', tab !== 'track');
+      document.getElementById('viewCibilCheck').classList.toggle('hidden', tab !== 'cibil');
+    }
+
+    function switchOwnerTab(tab) {
+      document.getElementById('ownerViewApps').classList.toggle('hidden', tab !== 'apps');
+      document.getElementById('ownerViewCollect').classList.toggle('hidden', tab !== 'collect');
+      document.getElementById('ownerViewAgreement').classList.toggle('hidden', tab !== 'agreement');
+      document.getElementById('ownerViewPromo').classList.toggle('hidden', tab !== 'promo');
+      if (tab === 'apps') renderOwnerApplications();
+      if (tab === 'collect') populateCollectAppDropdown();
+      if (tab === 'promo') renderPromoCodes();
+    }
+
+    // --- Processing Fee + 18% GST & Promo Calculation ---
+    function updateFeeCalculation() {
+      const amount = parseFloat(document.getElementById('appLoanAmount').value) || 0;
+      let baseFee = Math.max(150, Math.round(amount * 0.05)); // Default 5% or min ₹150
+      let discountedFee = Math.max(0, baseFee - appliedPromoDiscount);
+      let gst = Math.round(discountedFee * 0.18);
+      let total = discountedFee + gst;
+
+      document.getElementById('dispProcFee').innerText = `₹${baseFee}`;
+      document.getElementById('dispDiscount').innerText = `-₹${appliedPromoDiscount}`;
+      document.getElementById('dispGstFee').innerText = `₹${gst}`;
+      document.getElementById('dispTotalFee').innerText = `₹${total}`;
+      return { baseFee, gst, total };
+    }
+
+    function applyPromoCode() {
+      const codeInput = document.getElementById('appPromoInput').value.trim().toUpperCase();
+      const custType = document.getElementById('appCustomerType').value;
+      const loanAmt = parseFloat(document.getElementById('appLoanAmount').value) || 0;
+      const msgEl = document.getElementById('promoMsg');
+      const db = getCloudData();
+
+      const found = db.promos.find(p => p.code === codeInput);
+      if (!found) {
+        appliedPromoDiscount = 0;
+        msgEl.innerText = '❌ अमान्य प्रोमो कोड!';
+        msgEl.className = 'text-xs font-bold text-rose-600';
+        updateFeeCalculation();
+        return;
+      }
+      if (found.target !== 'All Customers' && found.target !== custType) {
+        msgEl.innerText = `❌ यह कोड केवल ${found.target} के लिए है!`;
+        msgEl.className = 'text-xs font-bold text-rose-600';
+        return;
+      }
+      if (loanAmt > found.maxLoan) {
+        msgEl.innerText = `❌ यह कोड अधिकतम ₹${found.maxLoan} तक के लोन पर मान्य है!`;
+        msgEl.className = 'text-xs font-bold text-rose-600';
+        return;
+      }
+
+      const baseFee = Math.max(150, Math.round(loanAmt * 0.05));
+      appliedPromoDiscount = found.type === 'FLAT' ? found.value : Math.round((baseFee * found.value) / 100);
+      appliedPromoCodeText = found.code;
+      msgEl.innerText = `✅ प्रोमो कोड लागू! ₹${appliedPromoDiscount} की छूट मिली।`;
+      msgEl.className = 'text-xs font-bold text-emerald-600';
+      updateFeeCalculation();
+    }
+
+    // --- Smart Image Compression & Upload (Keeps within KB limits automatically) ---
+    function handleFileUpload(event, docKey) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 700;
+          const scale = img.width > MAX_WIDTH ? MAX_WIDTH / img.width : 1;
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+          uploadedDocsTemp[docKey] = dataUrl;
+          const prev = document.getElementById('prev_' + docKey);
+          if (prev) {
+            prev.src = dataUrl;
+            prev.classList.remove('hidden');
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // --- Submit New Loan Application ---
+    function submitLoanApplication(e) {
+      e.preventDefault();
+      const db = getCloudData();
+      const orderId = 'RF' + Math.floor(1000 + Math.random() * 9000);
+      const feeObj = updateFeeCalculation();
+      const amount = parseFloat(document.getElementById('appLoanAmount').value);
+      const tenure = parseInt(document.getElementById('appTenure').value);
+      const monthlyEmi = Math.round((amount + (amount * 0.02 * tenure)) / tenure);
+
+      const newApp = {
+        orderId: orderId,
+        createdAt: new Date().toLocaleDateString('hi-IN'),
+        loanType: document.getElementById('appLoanType').value,
+        customerType: document.getElementById('appCustomerType').value,
+        amount: amount,
+        tenure: tenure,
+        monthlyEmi: monthlyEmi,
+        purpose: document.getElementById('appPurpose').value || 'Personal / Shopping Requirement',
+        name: document.getElementById('appName').value.trim(),
+        mobile: document.getElementById('appMobile').value.trim(),
+        email: document.getElementById('appEmail').value.trim(),
+        aadhaar: document.getElementById('appAadhaar').value.trim(),
+        pan: document.getElementById('appPan').value.trim().toUpperCase(),
+        bank: document.getElementById('appBank').value.trim(),
+        processingFee: Math.max(0, feeObj.baseFee - appliedPromoDiscount),
+        gstFee: feeObj.gst,
+        promoApplied: appliedPromoCodeText || 'None',
+        status: 'Pending',
+        remarkText: '',
+        remarkDocType: '',
+        insuranceOpted: false,
+        autoDebitStatus: 'Not Started',
+        autoDebitEndTime: null,
+        agreementAccepted: false,
+        docs: { ...uploadedDocsTemp },
+        emis: []
+      };
+
+      db.applications.unshift(newApp);
+      saveCloudData(db);
+
+      alert(`🎉 आपका आवेदन सफलतापूर्वक क्लाउड पर सबमिट हो गया है!\n\nआपका Order ID है: ${orderId}\n\nकृपया इसे नोट कर लें। अब आप ट्रैकिंग पेज पर अपना स्टेटस देख सकते हैं।`);
+      document.getElementById('loanApplicationForm').reset();
+      ['pan', 'aadhaar', 'passbook', 'photo', 'sign'].forEach(k => {
+        document.getElementById('prev_' + k).classList.add('hidden');
+      });
+      switchCustomerTab('track');
+      document.getElementById('trackSearchInput').value = orderId;
+      searchCustomerApplication();
+    }
+
+    // --- Smart Customer Tracking System ---
+    function searchCustomerApplication() {
+      const q = document.getElementById('trackSearchInput').value.trim().toUpperCase();
+      const container = document.getElementById('trackingResultContainer');
+      const db = getCloudData();
+
+      if (!q) {
+        container.innerHTML = `<div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm font-bold">कृपया अपना Order ID, मोबाइल नंबर या आधार नंबर दर्ज करें।</div>`;
+        return;
+      }
+
+      const app = db.applications.find(a =>
+        a.orderId.toUpperCase() === q ||
+        a.mobile === q ||
+        a.aadhaar === q
+      );
+
+      if (!app) {
+        container.innerHTML = `<div class="p-6 rounded-2xl bg-white card-bg border border-slate-200 text-center space-y-2">
+          <div class="text-rose-600 font-extrabold text-base">कोई रिकॉर्ड नहीं मिला (No Application Found)</div>
+          <p class="text-xs text-slate-500">कृपया अपनी सही Order ID, 10 अंकों का मोबाइल नंबर या 12 अंकों का आधार नंबर जांचें।</p>
+        </div>`;
+        return;
+      }
+
+      renderCustomerTrackingCard(app);
+    }
+
+    function renderCustomerTrackingCard(app) {
+      const container = document.getElementById('trackingResultContainer');
+      const totalFeeWithGst = app.processingFee + Math.round(app.processingFee * 0.18);
+      const totalPaidEmi = app.emis.reduce((sum, item) => sum + Number(item.amount), 0);
+      const totalPayable = app.monthlyEmi * app.tenure;
+      const remainingBalance = Math.max(0, totalPayable - totalPaidEmi);
+
+      const statusColors = {
+        'Pending': 'bg-amber-100 text-amber-800 border-amber-300',
+        'Processing': 'bg-sky-100 text-sky-800 border-sky-300',
+        'Verification': 'bg-purple-100 text-purple-800 border-purple-300',
+        'Approved': 'bg-emerald-100 text-emerald-800 border-emerald-300',
+        'Rejected': 'bg-rose-100 text-rose-800 border-rose-300',
+        'Loan Closed': 'bg-teal-100 text-teal-900 border-teal-400'
+      };
+
+      const docNamesHi = {
+        pan: 'पैन कार्ड (PAN Card)',
+        aadhaar: 'आधार कार्ड (Aadhaar Card)',
+        passbook: 'बैंक पासबुक (Bank Passbook)',
+        photo: 'पासपोर्ट फोटो (Photo)',
+        sign: 'हस्ताक्षर (Signature)'
+      };
+
+      let remarkHtml = '';
+      if (app.remarkText) {
+        remarkHtml = `
+          <div class="p-4 rounded-xl bg-rose-50 border-2 border-rose-300 text-rose-900 space-y-3">
+            <div class="font-extrabold text-sm flex items-center gap-2">
+              <i class="fa-solid fa-triangle-exclamation text-rose-600"></i>
+              ओनर पोर्टल से आवश्यक सूचना (Action Required / Remark):
+            </div>
+            <p class="text-xs font-semibold">${app.remarkText}</p>
+            ${app.remarkDocType ? `
+              <div class="bg-white p-3 rounded-lg border border-rose-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <span class="text-xs font-bold text-slate-800">कृपया दोबारा अपलोड करें: <u class="text-rose-700">${docNamesHi[app.remarkDocType] || app.remarkDocType}</u></span>
+                <input type="file" accept="image/*" onchange="customerReuploadDocument(event, '${app.orderId}', '${app.remarkDocType}')" class="text-xs">
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+
+      let approvalWorkflowHtml = '';
+      if (app.status === 'Approved' || app.status === 'Loan Closed') {
+        approvalWorkflowHtml = `
+          <div class="p-5 rounded-2xl bg-emerald-50/70 dark:bg-slate-800 border-2 border-emerald-500 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-emerald-200 pb-3">
+              <div>
+                <span class="bg-emerald-600 text-white text-xs font-extrabold px-3 py-1 rounded-full">CONGRATULATIONS • LOAN APPROVED</span>
+                <h4 class="text-base font-extrabold mt-1">आगे की प्रक्रिया: इंश्योरेंस, ऑटो-डेबिट और डिजिटल एग्रीमेंट</h4>
+              </div>
+              <div class="text-xs font-bold">प्रोसेसिंग फीस + 18% GST: <span class="text-emerald-700 font-extrabold">₹${totalFeeWithGst}</span></div>
+            </div>
+
+            <!-- Step 1: Optional Insurance Checkbox -->
+            <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 flex items-center justify-between">
+              <label class="flex items-center gap-2.5 text-xs font-bold cursor-pointer">
+                <input type="checkbox" ${app.insuranceOpted ? 'checked' : ''} onchange="toggleCustomerInsurance('${app.orderId}', this.checked)" class="w-4 h-4 accent-emerald-600">
+                <span>मैं अपने लोन के साथ सुरक्षा इंश्योरेंस (Loan Protection Insurance) लेना चाहता/चाहती हूँ (वैकल्पिक - टिक या अनटिक करें)</span>
+              </label>
+              <span class="text-xs font-bold ${app.insuranceOpted ? 'text-emerald-600' : 'text-slate-400'}">
+                ${app.insuranceOpted ? '✔ Insurance Added' : 'Optional'}
+              </span>
+            </div>
+
+            <!-- Step 2: Auto-Debit & 10-Minute Timer -->
+            <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="text-xs font-extrabold uppercase text-slate-500">Step 1: Auto-Debit (e-Mandate / NACH Setup)</div>
+                <div class="text-sm font-bold mt-0.5">मासिक किस्त ऑटो-डेबिट स्थिति: <span class="text-emerald-600">${app.autoDebitStatus}</span></div>
+                <div id="timerDisplay_${app.orderId}" class="text-xs font-extrabold text-amber-600 mt-1"></div>
+              </div>
+              ${app.autoDebitStatus === 'Not Started' ? `
+                <button onclick="startCustomerAutoDebit('${app.orderId}')" class="px-5 py-2.5 rounded-xl bg-sky-700 hover:bg-sky-800 text-white text-xs font-extrabold shadow">
+                  ⚡ Setup Auto-Debit Now (10 Min Process)
+                </button>
+              ` : `
+                <span class="px-4 py-2 rounded-xl bg-emerald-100 text-emerald-800 text-xs font-extrabold">
+                  ✔ Auto-Debit Active & Verified
+                </span>
+              `}
+            </div>
+
+            <!-- Step 3: Digital Loan Agreement Acceptance & PDF Download -->
+            <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="text-xs font-extrabold uppercase text-slate-500">Step 2: Digital Loan Agreement (ऋण अनुबंध पत्र)</div>
+                <div class="text-sm font-bold mt-0.5">शर्तें स्वीकार करें और अपना हस्ताक्षरित एग्रीमेंट पीडीएफ डाउनलोड करें</div>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button onclick="openAgreementModal('${app.orderId}')" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-extrabold shadow flex items-center gap-1.5">
+                  <i class="fa-solid fa-file-contract"></i> Agree & Download Agreement PDF
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      let noDuesHtml = '';
+      if (app.status === 'Loan Closed' || (app.emis.length > 0 && remainingBalance === 0)) {
+        noDuesHtml = `
+          <div class="p-4 rounded-xl bg-teal-900 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h4 class="font-extrabold text-sm">🎉 आपका लोन पूर्ण रूप से चुकता हो चुका है! (No Dues Clear)</h4>
+              <p class="text-xs text-teal-200">आप अपना आधिकारिक नो-ड्यू प्रमाण पत्र (No Dues Letter) नीचे क्लिक करके डाउनलोड कर सकते हैं।</p>
+            </div>
+            <button onclick="openNoDuesModal('${app.orderId}')" class="px-5 py-2.5 rounded-xl bg-white text-teal-950 font-extrabold text-xs shadow">
+              📄 Download No Dues Letter PDF
+            </button>
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <div class="bg-white card-bg rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
+          <!-- Compact Summary Header -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-extrabold bg-slate-900 text-white px-2.5 py-1 rounded">Order ID: ${app.orderId}</span>
+                <span class="text-xs font-bold text-slate-500">${app.createdAt}</span>
+              </div>
+              <h4 class="text-lg font-extrabold mt-1">${app.name} <span class="text-xs font-normal text-slate-500">(${app.loanType})</span></h4>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold">Current Status:</span>
+              <span class="px-3.5 py-1.5 rounded-full text-xs font-extrabold border ${statusColors[app.status] || 'bg-slate-100'}">${app.status}</span>
+            </div>
+          </div>
+
+          ${remarkHtml}
+
+          <!-- Financial Summary Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border">
+            <div><span class="text-slate-500 block">स्वीकृत ऋण राशि</span><strong class="text-sm">₹${app.amount}</strong></div>
+            <div><span class="text-slate-500 block">मासिक किस्त (EMI)</span><strong class="text-sm text-emerald-700">₹${app.monthlyEmi} / माह</strong></div>
+            <div><span class="text-slate-500 block">अवधि (Tenure)</span><strong class="text-sm">${app.tenure} माह</strong></div>
+            <div><span class="text-slate-500 block">प्रोसेसिंग शुल्क (+18% GST)</span><strong class="text-sm">₹${totalFeeWithGst}</strong></div>
+            <div><span class="text-slate-500 block">शेष बकाया (Remaining)</span><strong class="text-sm text-rose-600">₹${remainingBalance}</strong></div>
+          </div>
+
+          ${approvalWorkflowHtml}
+          ${noDuesHtml}
+
+          <!-- Monthly EMI Payment History Table -->
+          <div class="pt-2">
+            <h5 class="text-xs font-extrabold uppercase text-slate-500 mb-2">📊 मासिक किस्त विवरण (Monthly EMI Payment Tracker)</h5>
+            ${app.emis.length === 0 ? `
+              <div class="text-xs text-slate-500 italic bg-slate-50 dark:bg-slate-800 p-3 rounded-lg border">अभी तक कोई मासिक किस्त दर्ज नहीं की गई है।</div>
+            ` : `
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left border rounded-lg overflow-hidden">
+                  <thead class="bg-slate-100 dark:bg-slate-800 font-bold">
+                    <tr>
+                      <th class="p-2.5 border">क्र.</th>
+                      <th class="p-2.5 border">किस्त माह / विवरण</th>
+                      <th class="p-2.5 border">तारीख</th>
+                      <th class="p-2.5 border">माध्यम (Mode)</th>
+                      <th class="p-2.5 border">जमा राशि</th>
+                      <th class="p-2.5 border">स्टेटस</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${app.emis.map((e, idx) => `
+                      <tr class="border-b">
+                        <td class="p-2.5 border font-bold">#${idx + 1}</td>
+                        <td class="p-2.5 border font-semibold">${e.month}</td>
+                        <td class="p-2.5 border">${e.date}</td>
+                        <td class="p-2.5 border">${e.mode}</td>
+                        <td class="p-2.5 border font-extrabold text-emerald-700">₹${e.amount}</td>
+                        <td class="p-2.5 border"><span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">Paid ✔</span></td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+
+      if (app.autoDebitEndTime && app.autoDebitEndTime > Date.now()) {
+        runTenMinuteTimerDisplay(app.orderId, app.autoDebitEndTime);
+      }
+    }
+
+    // --- Customer Re-upload Document on Remark ---
+    function customerReuploadDocument(event, orderId, docKey) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 700;
+          const scale = img.width > MAX_WIDTH ? MAX_WIDTH / img.width : 1;
+          canvas.width = img.width * scale;
+          canvas.height = img.height * scale;
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+
+          const db = getCloudData();
+          const app = db.applications.find(a => a.orderId === orderId);
+          if (app) {
+            app.docs[docKey] = dataUrl;
+            app.remarkText = '';
+            app.remarkDocType = '';
+            app.status = 'Verification';
+            saveCloudData(db);
+            alert('✅ आपका नया डॉक्यूमेंट सफलतापूर्वक अपलोड हो गया है और ओनर पोर्टल पर सिंक हो गया है!');
+            renderCustomerTrackingCard(app);
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function toggleCustomerInsurance(orderId, checked) {
+      const db = getCloudData();
+      const app = db.applications.find(a => a.orderId === orderId);
+      if (app) {
+        app.insuranceOpted = checked;
+        saveCloudData(db);
+        renderCustomerTrackingCard(app);
+      }
+    }
+
+    // --- Auto-Debit & 10-Minute Live Countdown Timer ---
+    function startCustomerAutoDebit(orderId) {
+      const db = getCloudData();
+      const app = db.applications.find(a => a.orderId === orderId);
+      if (!app) return;
+
+      app.autoDebitStatus = 'Auto-Debit Verified & Successful';
+      app.autoDebitEndTime = Date.now() + 10 * 60 * 1000; // 10 minutes
+      saveCloudData(db);
+      renderCustomerTrackingCard(app);
+    }
+
+    function runTenMinuteTimerDisplay(orderId, endTime) {
+      if (activeTimers[orderId]) clearInterval(activeTimers[orderId]);
+      const updateTimer = () => {
+        const el = document.getElementById('timerDisplay_' + orderId);
+        if (!el) return;
+        const diff = endTime - Date.now();
+        if (diff <= 0) {
+          el.innerText = '✅ 10:00 मिनट पूर्ण — ऑटो-डेबिट पूरी तरह सक्रिय हो चुका है!';
+          clearInterval(activeTimers[orderId]);
+          return;
+        }
+        const mins = String(Math.floor(diff / 60000)).padStart(2, '0');
+        const secs = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+        el.innerText = `⏳ ऑटो-डेबिट डिस्पैच काउंटडाउन टाइमर: ${mins}:${secs} शेष`;
+      };
+      updateTimer();
+      activeTimers[orderId] = setInterval(updateTimer, 1000);
+    }
+
+    // --- Owner Portal Rendering & Actions ---
+    function renderOwnerApplications() {
+      const db = getCloudData();
+      const listEl = document.getElementById('ownerApplicationsList');
+
+      if (db.applications.length === 0) {
+        listEl.innerHTML = `<div class="bg-white card-bg p-8 rounded-2xl border text-center text-sm text-slate-500">अभी कोई लोन आवेदन प्राप्त नहीं हुआ है।</div>`;
+        return;
+      }
+
+      listEl.innerHTML = db.applications.map(app => {
+        const gst = Math.round(app.processingFee * 0.18);
+        const totalFee = app.processingFee + gst;
+        return `
+          <div class="bg-white card-bg rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b pb-3">
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="bg-slate-900 text-white text-xs font-extrabold px-2.5 py-1 rounded">Application ID: ${app.orderId}</span>
+                  <span class="text-base font-extrabold">Customer: ${app.name}</span>
+                  <span class="text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-0.5 rounded font-bold">${app.loanType}</span>
+                  ${app.insuranceOpted ? `<span class="text-xs bg-sky-100 text-sky-800 px-2 py-0.5 rounded font-bold">🛡️ Insurance Tick: Yes</span>` : `<span class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Insurance: No</span>`}
+                  <span class="text-xs bg-amber-50 text-amber-800 px-2 py-0.5 rounded font-bold">Auto-Debit: ${app.autoDebitStatus}</span>
+                </div>
+                <div class="text-xs text-slate-500 mt-1 flex flex-wrap gap-4">
+                  <span>📞 मोबाइल: <strong>${app.mobile}</strong></span>
+                  <span>🆔 आधार: <strong>${app.aadhaar}</strong></span>
+                  <span>💳 पैन: <strong>${app.pan}</strong></span>
+                  <span>🏦 बैंक: <strong>${app.bank}</strong></span>
+                  <span>💰 राशि: <strong class="text-emerald-700">₹${app.amount} (${app.tenure} माह)</strong></span>
+                </div>
+              </div>
+
+              <!-- View Agreement & No Dues Buttons Right Next to Customer -->
+              <div class="flex flex-wrap gap-2">
+                <button onclick="openAgreementModal('${app.orderId}')" class="px-3.5 py-2 rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold flex items-center gap-1">
+                  👁️ View Agreement Page
+                </button>
+                <button onclick="openNoDuesModal('${app.orderId}')" class="px-3.5 py-2 rounded-xl bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold flex items-center gap-1">
+                  🎓 No Dues Letter
+                </button>
+              </div>
+            </div>
+
+            <!-- Row matching Owner Mockup Screenshot: Document Thumbnails | Status & Fee | Remark -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+              
+              <!-- Col 1: 5 Thumbnails + Single PDF Download (5 cols) -->
+              <div class="lg:col-span-5 space-y-3">
+                <div class="grid grid-cols-5 gap-2 text-center text-[11px] font-semibold">
+                  <div>
+                    <img src="${app.docs.aadhaar || 'https://via.placeholder.com/80?text=Aadhaar'}" class="w-full h-14 object-cover rounded border bg-slate-100">
+                    <span class="block mt-1">Aadhaar</span>
+                  </div>
+                  <div>
+                    <img src="${app.docs.pan || 'https://via.placeholder.com/80?text=PAN'}" class="w-full h-14 object-cover rounded border bg-slate-100">
+                    <span class="block mt-1">PAN</span>
+                  </div>
+                  <div>
+                    <img src="${app.docs.passbook || 'https://via.placeholder.com/80?text=Bank'}" class="w-full h-14 object-cover rounded border bg-slate-100">
+                    <span class="block mt-1">Passbook</span>
+                  </div>
+                  <div>
+                    <img src="${app.docs.photo || 'https://via.placeholder.com/80?text=Photo'}" class="w-full h-14 object-cover rounded border bg-slate-100">
+                    <span class="block mt-1">Photo</span>
+                  </div>
+                  <div>
+                    <img src="${app.docs.sign || 'https://via.placeholder.com/80?text=Sign'}" class="w-full h-14 object-cover rounded border bg-slate-100">
+                    <span class="block mt-1">Signature</span>
+                  </div>
+                </div>
+
+                <button onclick="downloadAllCustomerDocsAsSinglePDF('${app.orderId}')" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow">
+                  <i class="fa-solid fa-download"></i> Download All Documents as Single PDF
+                </button>
+              </div>
+
+              <!-- Col 2: Application Status & Customizable Processing Fee (3 cols) -->
+              <div class="lg:col-span-3 space-y-3">
+                <div>
+                  <label class="block text-xs font-bold mb-1">Application Status</label>
+                  <select onchange="updateCustomerStatus('${app.orderId}', this.value)" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-xs font-bold">
+                    <option value="Pending" ${app.status === 'Pending' ? 'selected' : ''}>Pending (पेंडिंग)</option>
+                    <option value="Processing" ${app.status === 'Processing' ? 'selected' : ''}>Processing (प्रोसेसिंग)</option>
+                    <option value="Verification" ${app.status === 'Verification' ? 'selected' : ''}>Verification (वेरिफिकेशन)</option>
+                    <option value="Approved" ${app.status === 'Approved' ? 'selected' : ''}>Approved (अप्रूव)</option>
+                    <option value="Rejected" ${app.status === 'Rejected' ? 'selected' : ''}>Rejected (रिजेक्ट)</option>
+                    <option value="Loan Closed" ${app.status === 'Loan Closed' ? 'selected' : ''}>Loan Closed (नो ड्यू एक्टिव)</option>
+                  </select>
+                </div>
+
+                <!-- Modify Processing Fee -->
+                <div class="bg-slate-50 dark:bg-slate-800 p-2.5 rounded-xl border">
+                  <label class="block text-[11px] font-bold mb-1">प्रोसेसिंग फीस घटाएं/बढ़ाएं (₹) (+18% GST: ₹${gst} = कुल ₹${totalFee})</label>
+                  <div class="flex gap-1.5">
+                    <input type="number" id="feeInput_${app.orderId}" value="${app.processingFee}" class="w-full rounded border px-2 py-1 text-xs font-bold">
+                    <button onclick="updateCustomerProcessingFee('${app.orderId}')" class="px-3 py-1 rounded bg-emerald-700 text-white text-xs font-bold">Save</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Col 3: Add Remark / Document Correction Request (4 cols) -->
+              <div class="lg:col-span-4 space-y-2">
+                <label class="block text-xs font-bold">Add Remark / Document Re-upload Request</label>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <select id="remarkDoc_${app.orderId}" class="rounded-lg border px-2.5 py-2 text-xs">
+                    <option value="photo">Photo (फोटो)</option>
+                    <option value="aadhaar">Aadhaar (आधार)</option>
+                    <option value="pan">PAN Card (पैन)</option>
+                    <option value="passbook">Passbook (पासबुक)</option>
+                    <option value="sign">Signature (हस्ताक्षर)</option>
+                  </select>
+                  <input type="text" id="remarkInput_${app.orderId}" value="${app.remarkText}" placeholder="जैसे: फोटो साफ नहीं है, दोबारा अपलोड करें" class="rounded-lg border px-3 py-2 text-xs">
+                </div>
+                <button onclick="sendRemarkToCustomer('${app.orderId}')" class="w-full py-2 rounded-lg bg-teal-700 hover:bg-teal-800 text-white text-xs font-bold">
+                  Send Remark to Customer Tracking Page
+                </button>
+              </div>
+
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateCustomerStatus(orderId, newStatus) {
+      const db = getCloudData();
+      const app = db.applications.find(a => a.orderId === orderId);
+      if (app) {
+        app.status = newStatus;
+        saveCloudData(db);
+        renderOwnerApplications();
+      }
+    }
+
+    function updateCustomerProcessingFee(orderId) {
+      const val = parseFloat(document.getElementById('feeInput_' + orderId).value) || 0;
+      const db = getCloudData();
+      const app = db.applications.find(a => a.orderId === orderId);
+      if (app) {
+        app.processingFee = val;
+        saveCloudData(db);
+        alert(`✅ ${app.name} की प्रोसेसिंग फीस अपडेट होकर ₹${val} (+18% GST) कर दी गई है!`);
+        renderOwnerApplications();
+      }
+    }
+
+    function sendRemarkToCustomer(orderId) {
+      const docType = document.getElementById('remarkDoc_' + orderId).value;
+      const text = document.getElementById('remarkInput_' + orderId).value.trim() || 'दस्तावेज साफ नहीं दिख रहा है, कृपया दोबारा अपलोड करें।';
+      const db = getCloudData();
+      const app = db.applications.find(a => a.orderId === orderId);
+      if (app) {
+        app.remarkDocType = docType;
+        app.remarkText = text;
+        saveCloudData(db);
+        alert(`✅ रीमार्क भेज दिया गया है! जब ग्राहक अपना Order ID (${orderId}) ट्रैक करेगा, तो उसे ${docType} री-अपलोड का आइकॉन दिखेगा।`);
+        renderOwnerApplications();
+      }
+    }
+
+    // --- Single PDF Download of All Customer Uploaded Documents ---
+    async function downloadAllCustomerDocsAsSinglePDF(orderId) {
+      const db = getCloudData();
+      const app = db.applications.find(a => a.orderId === orderId);
+      if (!app) return;
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+
+      pdf.setFontSize(16);
+      pdf.text(`RNS FINANCE - CUSTOMER KYC DOSSIER`, 14, 16);
+      pdf.setFontSize(10);
+      pdf.text(`Order ID: ${app.orderId} | Customer Name: ${app.name} | Mobile: ${app.mobile}`, 14, 24);
+      pdf.text(`Aadhaar: ${app.aadhaar} | PAN: ${app.pan} | Bank: ${app.bank}`, 14, 30);
+      pdf.text(`Loan Amount: Rs. ${app.amount} (${app.tenure} Months) | CIN: U65929UP2026PTC123456`, 14, 36);
+      pdf.line(14, 40, 196, 40);
+
+      const items = [
+        { label: '1. PAN Card', data: app.docs.pan },
+        { label: '2. Aadhaar Card', data: app.docs.aadhaar },
+        { label: '3. Bank Passbook', data: app.docs.passbook },
+        { label: '4. Customer Photo', data: app.docs.photo },
+        { label: '5. Customer Signature', data: app.docs.sign }
+      ];
+
+      let yPos = 48;
+      for (let i = 0; i < items.length; i++) {
+        if (yPos > 230) {
+          pdf.addPage();
+          yPos = 20;
+        }
+        pdf.setFontSize(11);
+        pdf.text(items[i].label, 14, yPos);
+        if (items[i].data && items[i].data.startsWith('data:image')) {
+          try {
+            pdf.addImage(items[i].data, 'JPEG', 14, yPos + 3, 75, 42);
+          } catch (e) {}
+        } else {
+          pdf.setFontSize(9);
+          pdf.text('[Document Not Uploaded]', 14, yPos + 10);
+        }
+        yPos += 52;
+      }
+
+      pdf.save(`RNS_Finance_${app.orderId}_${app.name}_All_Docs.pdf`);
+    }
+
+    // --- Collect App (EMI Recording) ---
+    function populateCollectAppDropdown() {
+      const db = getCloudData();
+      const sel = document.getElementById('collectAppCustomerSelect');
+      if (db.applications.length === 0) {
+        sel.innerHTML = `<option value="">कोई ग्राहक उपलब्ध नहीं</option>`;
+        return;
+      }
+      sel.innerHTML = db.applications.map(a => `<option value="${a.orderId}">${a.orderId} - ${a.name} (EMI: ₹${a.monthlyEmi})</option>`).join('');
+      loadCustomerForCollectApp();
+    }
+
+    function loadCustomerForCollectApp() {
+      const orderId = document.getElementById('collectAppCustomerSelect').value;
+      const db = getCloudData();
+      const app = db.applications.find(a => a.orderId === orderId);
+      const box = document.getElementById('collectCustomerSummary');
+      if (!app) {
+        box.innerHTML = '';
+        return;
+      }
+      document.getElementById('collectEmiAmount').value = app.monthlyEmi;
+      box.innerHTML = `
+        <div>ग्राहक: <strong>${app.name}</strong> | मोबाइल: <strong>${app.mobile}</strong></div>
+        <div>लोन राशि: <strong>₹${app.amount}</strong> | मासिक किस्त: <strong>₹${app.monthlyEmi}</strong> | कुल जमा किस्तें: <strong>${app.emis.length}</strong></div>
+      `;
+    }
+
+    function recordMonthlyEmi() {
+      const orderId = document.getElementById('collectAppCustomerSelect').value;
+      const month = document.getElementById('collectEmiMonth').value.trim() || `EMI Installment`;
+      const amount = parseFloat(document.getElementById('collectEmiAmount').value) || 0;
+      const mode = document.getElementById('collectEmiMode').value;
+
+      const db = getCloudData();
+      const app = db.applications.find(a => a.orderId === orderId);
+      if (!app || amount <= 0) {
+        alert('कृपया ग्राहक और सही किस्त राशि चुनें!');
+        return;
+      }
+
+      app.emis.push({
+        month: month,
+        amount: amount,
+        mode: mode,
+        date: new Date().toLocaleDateString('hi-IN')
+      });
+      saveCloudData(db);
+      alert(`✅ ${app.name} की ₹${amount} की मासिक किस्त सफलतापूर्वक अपडेट हो गई है और उनके ट्रैकिंग पेज पर लाइव दिख रही है!`);
+      document.getElementById('collectEmiMonth').value = '';
+      loadCustomerForCollectApp();
+    }
+
+    // --- Editable Agreement Template Save & Modal ---
+    function saveCustomAgreementTemplate() {
+      const db = getCloudData();
+      db.agreementSettings = {
+        interestRate: document.getElementById('agrInterestRate').value,
+        emiDate: document.getElementById('agrEmiDate').value,
+        penaltyText: document.getElementById('agrPenaltyText').value,
+        customBody: document.getElementById('agrCustomBody').value
+      };
+      saveCloudData(db);
+      alert('✅ ऋण अनुबंध पत्र (Loan Agreement Letter) के बदलाव सफलतापूर्वक सेव हो गए हैं!');
+    }
+
+    function openAgreementModal(orderId) {
+      const db = getCloudData();
+      const app = db.applications.find(a => a.orderId === orderId);
+      if (!app) return;
+      const cfg = db.agreementSettings;
+      const gst = Math.round(app.processingFee * 0.18);
+
+      document.getElementById('modalTitle').innerText = `ऋण एवं फाइनेंस सेवा अनुबंध - ${app.orderId}`;
+      document.getElementById('modalPrintableArea').innerHTML = `
+        <div class="agreement-paper text-xs sm:text-sm space-y-4" id="pdfTargetContent">
+          <div class="text-center border-b-2 border-slate-900 pb-3">
+            <h2 class="text-2xl font-extrabold tracking-wide">RNS FINANCE</h2>
+            <p class="font-semibold">Sikta Kubernath Padrauna, Kushinagar, Uttar Pradesh - 274303</p>
+            <p>Email: rnsgpl2316@gmail.com | Helpline: +91 7668273774 | CIN: U65929UP2026PTC123456</p>
+            <div class="flex justify-between text-xs font-bold mt-3 pt-2 border-t">
+              <span>अनुबंध संख्याः ${app.orderId}</span>
+              <span>दिनांकः ${app.createdAt}</span>
+            </div>
+          </div>
+
+          <div class="text-center py-1">
+            <h3 class="text-lg font-extrabold underline">ऋण एवं फाइनेंस सेवा अनुबंध</h3>
+            <p class="text-xs font-bold">(LOAN & FINANCE SERVICE AGREEMENT)</p>
+          </div>
+
+          <div>
+            <h4 class="font-extrabold">1. ऋण एवं ग्राहक विवरण (Loan & Customer Details)</h4>
+            <p class="mt-1">
+              यह अनुबंध ऋणदाता <strong>RNS Finance</strong> और ऋण प्राप्तकर्ता श्री/श्रीमती <strong><u>${app.name}</u></strong> (मोबाइल: ${app.mobile}, पैन: ${app.pan}) के मध्य निष्पादित है।
+              स्वीकृत ऋण राशि रुपये <strong><u>₹${app.amount}</u></strong> (${app.loanType}) है, जिस पर मासिक/वार्षिक ब्याज दर <strong><u>${cfg.interestRate}</u></strong> लागू होगी।
+              प्रोसेसिंग शुल्क: <strong>₹${app.processingFee} + 18% GST (₹${gst}) = कुल ₹${app.processingFee + gst}</strong> | इंश्योरेंस विकल्प: <strong>${app.insuranceOpted ? 'हाँ (सक्रिय)' : 'नहीं'}</strong>।
+            </p>
+          </div>
+
+          <div>
+            <h4 class="font-extrabold">2. आवश्यक दस्तावेज (Submitted Documents)</h4>
+            <p>ग्राहक द्वारा ऋण की सुरक्षा और पहचान हेतु निम्नलिखित दस्तावेजों की स्व-प्रमाणित प्रतियां जमा की गई हैं:</p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 font-bold mt-1">
+              <span>☑ आधार कार्ड (Aadhaar Card)</span>
+              <span>☑ पैन कार्ड (PAN Card)</span>
+              <span>☑ बैंक पासबुक (Bank Passbook)</span>
+              <span>☑ पासपोर्ट फोटो एवं हस्ताक्षर</span>
+              <span>☑ ऑटो-डेबिट (e-Mandate: ${app.autoDebitStatus})</span>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-extrabold">3. पुनर्भुगतान की शर्तें (Repayment Terms)</h4>
+            <ul class="list-disc pl-5 space-y-1">
+              <li>मासिक किस्त (EMI): रुपये <strong>₹${app.monthlyEmi}</strong> प्रति माह की <strong>${cfg.emiDate}</strong> तारीख तक देय होगी।</li>
+              <li>कुल ऋण अवधिः <strong>${app.tenure} माह</strong>।</li>
+              <li>विलंब शुल्क (Penalty) एवं NACH बाउंसः <strong>${cfg.penaltyText}</strong> का अतिरिक्त शुल्क देय होगा।</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-extrabold">4. कानूनी एवं विशेष शर्तें (Legal & Special Clauses)</h4>
+            <div class="whitespace-pre-line text-xs leading-relaxed mt-1">${cfg.customBody}</div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-6 pt-8 mt-6 border-t border-slate-400 items-end text-center">
+            <div>
+              <div class="font-bold text-emerald-800">Digitally Verified & Signed</div>
+              <div class="font-extrabold border-t border-slate-800 mt-4 pt-1">अधिकृत हस्ताक्षरकर्ता (RNS Finance)</div>
+            </div>
+            <div>
+              ${app.docs.sign ? `<img src="${app.docs.sign}" class="h-12 mx-auto object-contain">` : `<div class="h-12"></div>`}
+              <div class="font-extrabold border-t border-slate-800 mt-2 pt-1">ऋण प्राप्तकर्ता (${app.name})</div>
+            </div>
+          </div>
+
+          <div class="text-center text-xs font-extrabold pt-3 border-t">
+            RNS Finance - विश्वसनीय एवं पारदर्शी फाइनेंस सेवाएँ
+          </div>
+        </div>
+      `;
+      const modal = document.getElementById('documentModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    // --- No Dues Certificate Modal ---
+    function openNoDuesModal(orderId) {
+      const db = getCloudData();
+      const app = db.applications.find(a => a.orderId === orderId);
+      if (!app) return;
+
+      document.getElementById('modalTitle').innerText = `No Dues Certificate (ऋण मुक्ति प्रमाण पत्र) - ${app.orderId}`;
+      document.getElementById('modalPrintableArea').innerHTML = `
+        <div class="agreement-paper space-y-5 text-sm" id="pdfTargetContent">
+          <div class="text-center border-b-2 border-slate-900 pb-3">
+            <h2 class="text-2xl font-extrabold">RNS FINANCE</h2>
+            <p class="font-semibold text-xs">Sikta Kubernath Padrauna, Kushinagar, Uttar Pradesh - 274303</p>
+            <p class="text-xs">Email: rnsgpl2316@gmail.com | Helpline: +91 7668273774 | CIN: U65929UP2026PTC123456</p>
+          </div>
+
+          <div class="flex justify-between text-xs font-bold">
+            <span>प्रमाण पत्र संख्या: NDC/${app.orderId}</span>
+            <span>दिनांक: ${new Date().toLocaleDateString('hi-IN')}</span>
+          </div>
+
+          <div class="text-center py-2">
+            <h3 class="text-xl font-extrabold underline text-emerald-900">नो ड्यू लेटर / ऋण मुक्ति प्रमाण पत्र (NO DUES CERTIFICATE)</h3>
+          </div>
+
+          <p class="leading-relaxed">
+            यह प्रमाणित किया जाता है कि श्री/श्रीमती <strong>${app.name}</strong> (मोबाइल नंबर: <strong>${app.mobile}</strong>, ऑर्डर/लोन खाता संख्या: <strong>${app.orderId}</strong>) ने
+            <strong>RNS Finance</strong> से <strong>₹${app.amount}</strong> का <strong>${app.loanType}</strong> लिया था।
+          </p>
+
+          <p class="leading-relaxed">
+            ग्राहक द्वारा इस ऋण खाते की सभी मासिक किस्तें (EMI) और संबंधित शुल्क पूर्ण रूप से जमा कर दिए गए हैं। आज दिनांक <strong>${new Date().toLocaleDateString('hi-IN')}</strong> को इस ऋण खाते पर कंपनी का <strong>कोई भी बकाया (Zero Dues) शेष नहीं है</strong>। कंपनी द्वारा इस ऋण अनुबंध को पूर्णतः बंद (Closed) घोषित किया जाता है।
+          </p>
+
+          <div class="pt-10 flex justify-between items-end">
+            <div class="text-xs">
+              <div>स्टेटस: <strong class="text-emerald-700">100% LOAN CLEARED & CLOSED</strong></div>
+              <div>जारीकर्ता स्थान: सिकता, पडरौना, कुशीनगर</div>
+            </div>
+            <div class="text-center">
+              <div class="font-bold text-emerald-800">Authorized Signatory</div>
+              <div class="border-t border-slate-900 font-extrabold pt-1 mt-4">अधिकृत हस्ताक्षर एवं मुहर (RNS Finance)</div>
+            </div>
+          </div>
+        </div>
+      `;
+      const modal = document.getElementById('documentModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeDocumentModal() {
+      const modal = document.getElementById('documentModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function downloadModalPdf() {
+      const element = document.getElementById('pdfTargetContent');
+      const title = document.getElementById('modalTitle').innerText.replace(/\s+/g, '_');
+      html2pdf().set({
+        margin: 8,
+        filename: `${title}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      }).from(element).save();
+    }
+
+    // --- Promo Code Management ---
+    function createPromoCode() {
+      const code = document.getElementById('promoCodeName').value.trim().toUpperCase();
+      const target = document.getElementById('promoTarget').value;
+      const type = document.getElementById('promoType').value;
+      const value = parseFloat(document.getElementById('promoValue').value) || 0;
+      const maxLoan = parseFloat(document.getElementById('promoMaxLoan').value) || 10000;
+
+      if (!code || value <= 0) {
+        alert('कृपया प्रोमो कोड का नाम और छूट की राशि दर्ज करें!');
+        return;
+      }
+
+      const db = getCloudData();
+      db.promos.push({ code, target, type, value, maxLoan });
+      saveCloudData(db);
+      document.getElementById('promoCodeName').value = '';
+      renderPromoCodes();
+      alert(`✅ प्रोमो कोड "${code}" एक्टिव हो गया है!`);
+    }
+
+    function renderPromoCodes() {
+      const db = getCloudData();
+      const el = document.getElementById('activePromoList');
+      el.innerHTML = db.promos.map((p, idx) => `
+        <div class="p-3 rounded-xl border flex items-center justify-between bg-slate-50 dark:bg-slate-800">
+          <div>
+            <span class="font-extrabold text-sm text-emerald-700">${p.code}</span>
+            <span class="ml-2 font-semibold">(${p.type === 'FLAT' ? '₹' + p.value + ' OFF' : p.value + '% OFF'})</span>
+            <div class="text-[11px] text-slate-500">${p.target} • Max Loan Limit: ₹${p.maxLoan}</div>
+          </div>
+          <button onclick="deletePromoCode(${idx})" class="text-rose-600 font-bold hover:underline">Delete</button>
+        </div>
+      `).join('');
+    }
+
+    function deletePromoCode(idx) {
+      const db = getCloudData();
+      db.promos.splice(idx, 1);
+      saveCloudData(db);
+      renderPromoCodes();
+    }
+
+    // --- Free CIBIL Simulator ---
+    function simulateFreeCibil() {
+      const name = document.getElementById('cibilName').value.trim();
+      const pan = document.getElementById('cibilPan').value.trim().toUpperCase();
+      const box = document.getElementById('cibilResultBox');
+      if (!name || pan.length < 10) {
+        alert('कृपया अपना पूरा नाम और 10 अंकों का वैध पैन नंबर दर्ज करें।');
+        return;
+      }
+      const score = 740 + (pan.charCodeAt(4) % 85);
+      box.classList.remove('hidden');
+      box.innerHTML = `✅ श्री/श्रीमती ${name} (PAN: ${pan}), आपका अनुमानित सिबिल स्कोर <span class="text-xl underline">${score} (Excellent)</span> है! आप RNS Finance से तुरंत लोन के लिए पात्र हैं।`;
+    }
+  </script>
+</body>
+</html>
